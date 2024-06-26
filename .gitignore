@@ -6,8 +6,10 @@
 # testing
 /coverage
 
+
 # production
 /build
+common/
 
 # misc
 .DS_Store
@@ -22,3 +24,4 @@ yarn-error.log*
 node_modules/
 skaffold.yaml
 .next
+
