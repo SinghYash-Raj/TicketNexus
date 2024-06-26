@@ -54,7 +54,7 @@ userSchema.pre('save', async function(done){
 })
 
 
-
+// we made build for type checking
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
