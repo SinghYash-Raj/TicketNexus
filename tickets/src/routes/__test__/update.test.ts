@@ -5,7 +5,6 @@ import { Ticket } from '../../models/ticket';
 import { natsWrapper } from '../../nats-wrapper';
 
 it('returns a 404 if the provided id does not exist', async () => {
-  jest.setTimeout(20000);
   const id = new mongoose.Types.ObjectId().toHexString();
   await request(app)
     .put(`/api/tickets/${id}`)
@@ -18,7 +17,6 @@ it('returns a 404 if the provided id does not exist', async () => {
 });
 
 it('returns a 401 if the user is not authenticated', async () => {
-  jest.setTimeout(20000);
   const id = new mongoose.Types.ObjectId().toHexString();
   await request(app)
     .put(`/api/tickets/${id}`)
@@ -30,13 +28,9 @@ it('returns a 401 if the user is not authenticated', async () => {
 });
 
 it('returns a 401 if the user does not own the ticket', async () => {
-  jest.setTimeout(20000);
-  const userOne = global.signin();
-  const userTwo = global.signin();
-
   const response = await request(app)
     .post('/api/tickets')
-    .set('Cookie', userOne)
+    .set('Cookie', global.signin())
     .send({
       title: 'asldkfj',
       price: 20,
@@ -44,7 +38,7 @@ it('returns a 401 if the user does not own the ticket', async () => {
 
   await request(app)
     .put(`/api/tickets/${response.body.id}`)
-    .set('Cookie', userTwo)
+    .set('Cookie', global.signin())
     .send({
       title: 'alskdjflskjdf',
       price: 1000,
@@ -53,7 +47,6 @@ it('returns a 401 if the user does not own the ticket', async () => {
 });
 
 it('returns a 400 if the user provides an invalid title or price', async () => {
-  jest.setTimeout(20000);
   const cookie = global.signin();
 
   const response = await request(app)
@@ -84,7 +77,6 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
 });
 
 it('updates the ticket provided valid inputs', async () => {
-  jest.setTimeout(20000);
   const cookie = global.signin();
 
   const response = await request(app)
@@ -113,7 +105,6 @@ it('updates the ticket provided valid inputs', async () => {
 });
 
 it('publishes an event', async () => {
-  jest.setTimeout(20000);
   const cookie = global.signin();
 
   const response = await request(app)
@@ -137,7 +128,6 @@ it('publishes an event', async () => {
 });
 
 it('rejects updates if the ticket is reserved', async () => {
-  jest.setTimeout(20000);
   const cookie = global.signin();
 
   const response = await request(app)

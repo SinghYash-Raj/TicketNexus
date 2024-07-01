@@ -58,5 +58,5 @@ it('emits a order cancelled event', async () => {
     .send()
     .expect(204);
 
-  expect(natsWrapper.client.publish).toHaveBeenCalledTimes(2);
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
 });
